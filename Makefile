@@ -123,7 +123,19 @@ endif
 ifeq "$(PLATFORM)" "libretro"
 OBJS += platform/libretro/libretro.o
 endif
-
+ifeq "$(PLATFORM)" "gameshell"
+CFLAGS += -DGAMESHELL
+CFLAGS += -DHAVE_GLES
+LDFLAGS += -lEGL -lGL
+OBJS += platform/gameshell/inputmap.o
+OBJS += platform/linux/emu.o platform/linux/blit.o # FIXME
+OBJS += platform/common/plat_sdl.o
+OBJS += platform/libpicofe/plat_sdl.o platform/libpicofe/in_sdl.o
+OBJS += platform/libpicofe/plat_dummy.o
+OBJS += platform/libpicofe/gl.o
+OBJS += platform/libpicofe/gl_platform.o
+USE_FRONTEND = 1
+endif
 ifeq "$(USE_FRONTEND)" "1"
 
 # common
